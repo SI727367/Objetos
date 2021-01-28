@@ -1,18 +1,21 @@
+import javax.swing.JOptionPane;
+
 public class Tarea3_1 {
     public static void main(String[] args) {
-        int N = 85;
-        double A = 8.36;
-        char C = 9812;
+        float n1,n2;
+        n1=Float.parseFloat(JOptionPane.showInputDialog(
+                "Dame el primer numero en decimal, puede contener fraccionario"));
+        n2=Float.parseFloat(JOptionPane.showInputDialog(
+                "Dame el psegundo numero en decimal, puede contener fraccionario"));
+        JOptionPane.showMessageDialog(null,String.format(
+                "La suma es %f\nLa resta es %f\nLa multiplicación es %f\nLa división es %f\n",
+                (n1+n2),(n1-n2),(n1*n2),(n1/n2)),
+                "Resultado",JOptionPane.INFORMATION_MESSAGE);
 
-        System.out.println("N = " + N);
-        System.out.println("A = " + A);
-        System.out.println("C = " + C);
-
-
-        System.out.println(N + " + " + A + " = " + (double) N+A);
-        System.out.println(A + " - " + N + " = " +  (A-(double)N));
-        System.out.println("Valor numerico del caracter C = " + (int)C);
+        System.out.printf("La suma es %f\n", (n1+n2));
+        System.out.printf("La resta es %f\n", (n1-n2));
+        System.out.printf("La multiplicación es es %f\n",(n1*n2));
+        System.out.printf("La división es %f\n",(n1/n2));
     }
-
 }
 
