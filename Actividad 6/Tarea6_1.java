@@ -22,7 +22,7 @@ public class Tarea6_1 {
         LengthsWidth(MatrixB);
 
         double [][] MatrixC = new double [Length][Width];
-        for (int i = 0; i < Length; i++) Arrays.fill(MatrixC[i], 0);  //Llenar la MatrixC con 0
+        for (int i = 0; i < Length; i++) Arrays.fill(MatrixC[i], 0);  /* Llenar la MatrixC con 0 */
 
         for (int i = 0; i < Length; i++) {
             for (int j = 0; j < Width; j++) {
@@ -31,7 +31,7 @@ public class Tarea6_1 {
             }
         }
         for (int i = 0; i < Length; i++) {
-            for (int j = 0; j < Width; j++) System.out.printf("%3.3f ", MatrixC[i][j]);
+            for (int j = 0; j < Width; j++) System.out.printf("%3.1f ", MatrixC[i][j]);
             System.out.print("\n");
         }
 
