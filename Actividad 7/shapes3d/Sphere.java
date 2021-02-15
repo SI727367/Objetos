@@ -25,7 +25,7 @@ public class Sphere {
     }
 
     public double getvolume(){
-        return (4/3*PI*pow(radio,3));
+        return ((double) 4/3*PI*pow(radio,3));
     }
 
     public double getarea(){
