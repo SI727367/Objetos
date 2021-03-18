@@ -8,7 +8,5 @@ public class Tarea10_1 {
         System.out.println(d3);
         d3.nextDay();
         System.out.println(d3);
-        d3.prevDay();
-        System.out.println(d3);
     }
 }

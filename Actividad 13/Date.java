@@ -1,40 +1,48 @@
+import java.util.Calendar;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
+
 public class Date implements Cloneable {
-    private int year;
-    private int month;
-    private int day;
-    private int validsetDay_Month = 0;      // 0 para 30 //1 para 31 //2 para Febrero //3 loop Enero
+    Calendar cal = Calendar.getInstance();
+
+    protected int year;
+    protected int month;
+    protected int day;
+    protected int validsetDay_Month = 0;      // 0 para 30 //1 para 31 //2 para Febrero //3 loop Enero
+    protected static int instances = 0;
 
     private final int DIAINIC;
     private final int MESINIC;
     private final int AÑOINIC;
 
-    private final byte ENERO = 1;
-    private final byte FEBRERO = 2;
-    private final byte MARZO = 3;
-    private final byte ABRIL = 4;
-    private final byte MAYO = 5;
-    private final byte JUNIO = 6;
-    private final byte JULIO = 7;
-    private final byte AGOSTO = 8;
-    private final byte SEPTIEMBRE = 9;
-    private final byte OCTUBRE = 10;
-    private final byte NOVIEMBRE = 11;
-    private final byte DICIEMBRE = 12;
-    private final byte LUNES = 1;
-    private final byte MARTES = 2;
-    private final byte MIERCOLES = 3;
-    private final byte JUEVES = 4;
-    private final byte VIERNES = 5;
-    private final byte SABADO = 6;
-    private final byte DOMINGO = 0;
+    public static final int ENERO = 1;
+    public static final int FEBRERO = 2;
+    public static final int MARZO = 3;
+    public static final int ABRIL = 4;
+    public static final int MAYO = 5;
+    public static final int JUNIO = 6;
+    public static final int JULIO = 7;
+    public static final int AGOSTO = 8;
+    public static final int SEPTIEMBRE = 9;
+    public static final int OCTUBRE = 10;
+    public static final int NOVIEMBRE = 11;
+    public static final int DICIEMBRE = 12;
+    public static final int LUNES = 1;
+    public static final int MARTES = 2;
+    public static final int MIERCOLES = 3;
+    public static final int JUEVES = 4;
+    public static final int VIERNES = 5;
+    public static final int SABADO = 6;
+    public static final int DOMINGO = 0;
 
     public Date() {
-        this.year = 1_970;
-        this.month = 1;
-        this.day = 1;
+        this.year = cal.get(Calendar.YEAR);
+        this.month = cal.get(Calendar.MONTH);;
+        this.day = cal.get(Calendar.DAY_OF_MONTH);;
         DIAINIC = 1;
-        MESINIC = 1;
+        MESINIC = 0;
         AÑOINIC = 1_970;
+        instances++;
     }
 
     public Date(int year, int month, int day) {
@@ -79,30 +87,56 @@ public class Date implements Cloneable {
     public int getYear() {
         return this.year;
     }
+    public static int getInstances(){ return instances; }
 
     public boolean isValid() { //Doble uso para checkeo de dias en un mes
         switch (this.month) {
-            case 1:
-            case 3:
-            case 5:
-            case 7:
-            case 8:
-            case 10:
-            case 12:
+            case ENERO:
+            case MARZO:
+            case MAYO:
+            case JULIO:
+            case AGOSTO:
+            case OCTUBRE:
+            case DICIEMBRE:
                 validsetDay_Month = 1; //Dias 31
                 return this.day < 31;
-            case 4:
-            case 6:
-            case 9:
-            case 11:
+            case ABRIL:
+            case JUNIO:
+            case SEPTIEMBRE:
+            case NOVIEMBRE:
                 validsetDay_Month = 0; //Dias 20
                 return this.day < 30;
-            case 2:
+            case FEBRERO:
                 validsetDay_Month = 2; //Febrero
                 return (this.year % 4 == 0 && this.year % 100 != 0) || this.year % 400 == 0 ? this.day < 30 : this.day < 29;
         }
         validsetDay_Month = 3; //Loop
         return false;
+    }
+
+    public static boolean isValid(int year, int month, int day){
+        switch (month) {
+            case ENERO:
+            case MARZO:
+            case MAYO:
+            case JULIO:
+            case AGOSTO:
+            case OCTUBRE:
+            case DICIEMBRE:
+                return day < 31;
+            case ABRIL:
+            case JUNIO:
+            case SEPTIEMBRE:
+            case NOVIEMBRE:
+                return day < 30;
+            case FEBRERO:
+                return (year % 4 == 0 && year % 100 != 0) || year % 400 == 0 ? day < 30 : day < 29;
+        }
+        return false;
+    }
+
+    public static boolean isLeap(int year){
+        return (year % 4 == 0 && year % 100 != 0) || year % 400 == 0;
     }
 
     public String MonthtoString() {
@@ -163,20 +197,20 @@ public class Date implements Cloneable {
     }
 
     public void nextDay() {
-        this.setDay(getDay()+1);
+        this.day += 1;
         if (!this.isValid()){
             this.setDay(1);
-            this.setMonth(getMonth()+1);
+            this.month += 1;
             if (!this.isValid()){
                 this.setMonth(1);
-                this.setYear(getYear()+1);
+                this.year +=1;
             }
         }
     }
 
     public void prevDay() {
         if (this.getDay() == 1){
-            this.setMonth(getMonth()-1);
+            this.month -= 1;
             this.isValid();
             switch(validsetDay_Month){
                 case 0:
@@ -201,5 +235,15 @@ public class Date implements Cloneable {
             }
         }
         else{this.setDay(getDay()-1);}
+    }
+
+    public static int dayOfWeek(int year, int month, int day){
+        if(!isValid(year, month, day))
+            return -1;
+
+        int[] N = { 0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4 };
+        if (month - 1 < 3)
+            year -= 1;
+        return (year + year/4 - year/100 + year/400 + N[month - 2] + day) % 7;
     }
 }
