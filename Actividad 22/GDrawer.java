@@ -1,5 +1,3 @@
-package com.iteso;
-
 public class GDrawer<T> {
 	private T o=null;
 	
@@ -15,4 +13,12 @@ public class GDrawer<T> {
 		this.o=null;
 		return o;
 	}
+
+	@Override
+	public String toString() {
+		return "GDrawer{" +
+				"o=" + o +
+				'}';
+	}
 }
+

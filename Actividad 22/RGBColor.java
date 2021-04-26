@@ -1,5 +1,3 @@
-package com.iteso;
-
 public class RGBColor {
 	private int red=0,green=0,blue=0;
 	
